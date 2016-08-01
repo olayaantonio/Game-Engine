@@ -1,0 +1,41 @@
+#include <stdexcept>
+#include <iostream>
+#include <SDL.h>
+#include "Fonster.h"
+#include "Sprite.h"
+#include "Skogshuggare.h"
+#include "Frisbee.h"
+#include "Etikett.h"
+
+
+using namespace std;
+using namespace spel;
+
+
+
+int main(int argc, char** argv) {
+	try {
+		Fonster* fo = new Fonster("1st", 200, 100, 800, 600);
+        Sprite* skogsHuggare1 = Skogshuggare::getInstance(fo, 350, 0, 100, 100);
+        Sprite* frisbee1 = Frisbee::getInstance(fo, 0, 0, 70, 70);
+        Sprite* frisbee2 = Frisbee::getInstance(fo, 770, 570, 30, 30);
+        Sprite* frisbee3 = Frisbee::getInstance(fo, 500, 200, 50, 50);
+        Sprite* frisbee4 = Frisbee::getInstance(fo, 700, 370, 40, 40);
+        Sprite* spelRegler1 = Etikett::getInstance(fo, 500,0,300, 50, "Akta dig för frisbees!");
+		fo->run();
+
+        ///Städar bort fönstret och alla sprites
+
+        delete spelRegler1;
+        delete frisbee4;
+        delete frisbee3;
+        delete frisbee2;
+        delete frisbee1;
+        delete skogsHuggare1;
+        delete fo;
+	}
+	catch (runtime_error& e) {
+		cerr << e.what() << endl;
+    }
+    return 0;
+}

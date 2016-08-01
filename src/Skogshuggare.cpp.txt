@@ -1,0 +1,69 @@
+#include "Sprite.h"
+#include "Skogshuggare.h"
+#include "Fonster.h"
+#include <SDL.h>
+#include <SDL_image.h>
+#include <iostream>
+
+using namespace std;
+
+namespace spel
+{
+    Skogshuggare* Skogshuggare::getInstance(Fonster* fo, int x, int y, int w, int h)
+    {
+        return new Skogshuggare(fo, x, y, w, h);
+    }
+
+    Skogshuggare::Skogshuggare(Fonster* fo, int x, int y, int w, int h) : Sprite(fo, x, y, w, h, true), moving(false)
+    {
+        skogsSurf = SDL_LoadBMP("c:/images/skogsHuggare.bmp");
+        skogsTurre = SDL_CreateTextureFromSurface(win->getRen(), skogsSurf);
+        SDL_FreeSurface(skogsSurf);
+    }
+
+
+    void Skogshuggare::draw()
+    {
+        SDL_RenderCopy(win->getRen(), skogsTurre, NULL, &rect);
+    }
+
+    void Skogshuggare::mouseDown(const SDL_Event& eve)
+    {
+        if(eve.button.x >= rect.x && eve.button.x <= rect.x + rect.w && eve.button.y >= rect.y
+                && eve.button.y <= rect.y + rect.h && eve.button.button == SDL_BUTTON_LEFT){
+            moving = true;
+        }
+    }
+
+    void Skogshuggare::mouseUp(const SDL_Event& eve)
+    {
+        if (eve.button.x >= rect.x && eve.button.x <= rect.x + rect.w &&
+                eve.button.y >= rect.y && eve.button.y <= rect.y + rect.h){
+            moving = false;
+        }
+    }
+
+    void Skogshuggare::mouseMotion(const SDL_Event& eve){
+        if(moving){
+            rect.x += eve.motion.xrel;
+            rect.y += eve.motion.yrel;
+        }
+    }
+
+    void Skogshuggare::handleCollision(){
+        if (collisionCount == 0){
+            SDL_DestroyTexture(skogsTurre);
+            music = Mix_LoadMUS("C:/sounds/2sad4me.wav");
+            Mix_PlayMusic(music, 1);
+            collisionCount++;
+            SDL_Delay(5000); //Delay i 5 s då låten som spelas när man har förlorat är så lång
+        }
+    }
+
+    Skogshuggare::~Skogshuggare()
+    {
+        SDL_DestroyTexture(skogsTurre);
+        Mix_FreeMusic(music);
+    }
+
+}

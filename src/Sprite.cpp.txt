@@ -1,0 +1,18 @@
+#include "Sprite.h"
+#include "Fonster.h"
+
+
+namespace spel {
+
+	Sprite::Sprite(Fonster* fo, int x, int y, int w, int h, bool collidable) : win(fo), rect{ x,y,w,h }, collidable(collidable) //initierar sin win-pekare
+	{
+		fo->add(this); //Anropar sin addfunktion
+	}
+
+
+	Sprite::~Sprite()
+	{
+
+	}
+
+}

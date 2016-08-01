@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="GameEngine" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/GameEngine" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add directory="include" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/GameEngine" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add directory="include" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+			<Add directory="C:/SDL2/include/SDL2" />
+		</Compiler>
+		<Linker>
+			<Add option="-lmingw32 -lSDL2main -lSDL2 -lSDL2_image" />
+			<Add option="-lSDL2_mixer -lSDL2_ttf" />
+			<Add directory="C:/SDL2/lib" />
+		</Linker>
+		<ExtraCommands>
+			<Add before='cmd /c copy &quot;C:\Program Files (x86)\SDL\lib\x86\SDL2.dll&quot; &quot;$(TARGET_OUTPUT_DIR)&quot;' />
+			<Add before='cmd /c copy &quot;C:\Program Files (x86)\SDL\lib\x86\SDL2_ttf.dll&quot; &quot;$(TARGET_OUTPUT_DIR)&quot;' />
+			<Add before='cmd /c copy &quot;C:\Program Files (x86)\SDL\lib\x86\SDL2_mixer.dll&quot; &quot;$(TARGET_OUTPUT_DIR)&quot;' />
+			<Add before='cmd /c copy &quot;C:\Program Files (x86)\SDL\lib\x86\SDL2_image.dll&quot; &quot;$(TARGET_OUTPUT_DIR)&quot;' />
+			<Add before='cmd /c copy &quot;C:\Program Files (x86)\SDL\lib\x86\libfreetype-6.dll&quot; &quot;$(TARGET_OUTPUT_DIR)&quot;' />
+			<Add before='cmd /c copy &quot;C:\Program Files (x86)\SDL\lib\x86\zlib1.dll&quot; &quot;$(TARGET_OUTPUT_DIR)&quot;' />
+		</ExtraCommands>
+		<Unit filename="include/Etikett.h" />
+		<Unit filename="include/Fonster.h" />
+		<Unit filename="include/Frisbee.h" />
+		<Unit filename="include/Skogshuggare.h" />
+		<Unit filename="include/Sprite.h" />
+		<Unit filename="include/System.h" />
+		<Unit filename="main.cpp" />
+		<Unit filename="src/Etikett.cpp" />
+		<Unit filename="src/Fonster.cpp" />
+		<Unit filename="src/Frisbee.cpp" />
+		<Unit filename="src/Skogshuggare.cpp" />
+		<Unit filename="src/Sprite.cpp" />
+		<Unit filename="src/System.cpp" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

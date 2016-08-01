@@ -1,0 +1,45 @@
+#ifndef Sprite_H
+#define Sprite_H
+
+#include <SDL.h>
+
+
+namespace spel {
+
+	class Fonster;
+
+	class Sprite
+	{
+	public:
+		virtual void draw() = 0; //Vi gör draw abstrakt
+		virtual ~Sprite();
+
+		//Vi lämnar dessa funktioner tomma för att senare bli tillämpade i de Spriter som avser dessa events
+		virtual void mouseDown(const SDL_Event&){}
+		virtual void mouseUp(const SDL_Event&){}
+		virtual void mouseMotion(const SDL_Event&){}
+		virtual void handleCollision()= 0;
+		virtual bool isPlayer() = 0;
+		bool isCollidable(){return collidable;}
+
+        const SDL_Rect* getSDLRect() const {
+            return &rect;
+        }
+
+		bool isColliding(const Sprite& other){
+            return SDL_HasIntersection(getSDLRect(),other.getSDLRect());
+		}
+
+    protected:
+		Fonster* win;
+		SDL_Rect rect;
+        Sprite(Fonster* fo, int x, int y, int w, int h, bool collidable);
+        bool collidable;
+    private:
+        Sprite(const Sprite&) = delete; // Ingen tilldelning för objekt av Sprite
+        const Sprite& operator=(const Sprite&) = delete; //Ingen kopiering för objekt av Sprite
+
+	};
+}
+
+#endif

@@ -1,0 +1,109 @@
+#include "Fonster.h"
+#include "Sprite.h"
+#include "Etikett.h"
+#include <string>
+#include <SDL_image.h>
+#include <stdio.h>
+#include <iostream>
+#include <SDL_mixer.h>
+
+using namespace std;
+namespace spel {
+
+	Fonster::Fonster(string tit, int x, int y, int w, int h)
+	{
+		win = SDL_CreateWindow(tit.c_str(), x, y, w, h, 0); // 0 = fönstret visas direkt, c_str är c representation av string, så den känns igen
+		ren = SDL_CreateRenderer(win, -1, 0); //-1 = vilken renderare som ska tas, 0 = inga flaggor
+
+		bg = SDL_LoadBMP("c:/images/Grass.BMP");
+        if(bg == NULL)
+        {
+            SDL_ShowSimpleMessageBox(0, "Background init error", SDL_GetError(), win);
+        }
+
+		bgtx = SDL_CreateTextureFromSurface(ren, bg);
+		SDL_FreeSurface(bg);
+
+        SDL_RenderClear(ren);
+        SDL_RenderCopy(ren, bgtx, NULL, NULL);
+        SDL_RenderPresent(ren);
+
+	}
+
+	void Fonster::add(Sprite* sprite) {
+		sprites.push_back(sprite);
+	}
+
+	void Fonster::run()
+	{
+		for (Sprite* k : sprites)
+			k->draw();
+		SDL_RenderPresent(ren);
+
+		bool goOn = true;
+		const int TIDPERVARV = 50;
+
+
+		while (goOn) {
+            Uint32 nextVarv = SDL_GetTicks() + TIDPERVARV;
+			SDL_Event eve;
+			while (SDL_PollEvent(&eve)) {
+				switch (eve.type) {
+				case SDL_MOUSEBUTTONDOWN: //Vi vet inte vad denna funktion ska göra, så vi tvingar tillämparen att skapa en mouseDown() och mouseUp()
+					for (Sprite* k : sprites)
+						k->mouseDown(eve);
+					break;
+				case SDL_MOUSEBUTTONUP:
+					for (Sprite* k : sprites)
+						k->mouseUp(eve);
+					break;
+                case SDL_MOUSEMOTION:
+                     for (Sprite* k : sprites)
+                        k->mouseMotion(eve);
+                     break;
+                case SDL_QUIT:
+                    goOn = false; break;
+                case SDL_KEYDOWN:
+                    if (eve.key.keysym.sym == SDLK_END || eve.key.keysym.sym == SDLK_ESCAPE)
+                        goOn = false;
+                    break;
+                } //switch
+			} //inre
+
+            SDL_RenderClear(ren); //suddar
+            SDL_RenderCopy(ren, bgtx, NULL, NULL);
+
+            for(Sprite* p : sprites){
+                if(p->isCollidable()){ // Kollar om skogshuggaren är kolliderbar
+                for(Sprite* j : sprites){
+                    if(j->isCollidable()){ //Kollar om frisbeen är kolliderbar
+                        if(p!= j && p->isPlayer() && p->isColliding(*j)){ //Körs om skogshuggare och frisbee kolliderar, samt att frisbees inte ska kollidera med varandra
+                            p->handleCollision();
+                            goOn = false;
+                            }
+                        }
+                    }
+                }//if-sats
+            } //for-sats
+
+			for (Sprite* k : sprites)
+                    k->draw();
+            SDL_RenderPresent(ren);
+
+            //Sänker tickvärdet ifall det överskrider TIDPERVARV.
+            if (!SDL_TICKS_PASSED(SDL_GetTicks(), nextVarv))
+                SDL_Delay(nextVarv - SDL_GetTicks());
+
+		} //yttre while
+	} //run
+
+	SDL_Renderer* Fonster::getRen() const {
+		return ren;
+	}
+
+	Fonster::~Fonster()
+	{
+		SDL_DestroyRenderer(ren);
+		SDL_DestroyWindow(win);
+	}
+}

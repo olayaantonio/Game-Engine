@@ -1,0 +1,28 @@
+#pragma once
+#pragma once
+#include "Sprite.h"
+#include <SDL.h>
+#ifndef FRISBEE_H
+#define FRISBEE_H
+
+
+namespace spel {
+    class Frisbee : public Sprite
+    {
+        public:
+            void draw();
+            void handleCollision(){}
+            static Frisbee* getInstance(Fonster* fo, int x, int y, int w, int h);
+            ~Frisbee();
+            bool isPlayer(){return false;}
+        protected:
+            Frisbee(Fonster* fo, int x, int y, int w, int h);
+        private:
+            SDL_Surface* frisbeeSurf;
+            SDL_Texture* frisbeeTurre;
+            int dx = 20; //Delta x sätts som positivt i början
+            int dy = 9;
+    };
+}
+
+#endif

@@ -1,0 +1,26 @@
+#include "Sprite.h"
+#include "CollisionRectangle.h"
+
+
+CollisionRectangle::CollisionRectangle()
+{
+    SetRectangle(x,y,w,h);
+}
+
+CollisionRectangle::CollisionRectangle(int x, int y, int w, int h)
+{
+    SetRectangle(x, y, w, h);
+}
+
+
+CollisionRectangle::~CollisionRectangle(void)
+{
+}
+
+void CollisionRectangle::SetRectangle(int x, int y, int w, int h)
+{
+    CollisionRect.x = x;
+    CollisionRect.y = y;
+    CollisionRect.w = w;
+    CollisionRect.h = h;
+}

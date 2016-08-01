@@ -1,0 +1,31 @@
+#ifndef FONSTER_H
+#define FONSTER_H
+
+#include <string>
+#include <SDL.h>
+#include <vector>
+#include <SDL_image.h>
+
+namespace spel {
+	class Sprite; //det kommer finnas ngt som heter Sprite, typ ömsesidigt beroende.
+    class Etikett;
+	class Fonster
+	{
+	public:
+		Fonster(std::string tit, int x, int y, int w, int h);
+		void add(Sprite* sprite);  //add ska förändras, inte const
+		void run(); //händelse loop
+		SDL_Renderer* getRen() const; //returnera renderaren, vill ju att Spriteerna ska komma åt den, friend deklaration
+		~Fonster();
+	private:
+		friend class Sprite;
+		SDL_Window* win;
+		SDL_Renderer* ren;
+		std::vector<Sprite*> sprites;
+
+        SDL_Surface* bg;
+		SDL_Texture* bgtx;
+
+	};
+}
+#endif

@@ -1,0 +1,25 @@
+#ifndef ETIKETT_H
+#define ETIKETT_H
+#include "Sprite.h"
+#include <string>
+#include <SDL.h>
+
+namespace spel{
+    class Fonster;
+
+    class Etikett : public Sprite
+    {
+        public:
+            static Etikett* getInstance(Fonster* fo, int x, int y, int w, int h, std::string t);
+            Etikett(Fonster* fo, int x, int y, int w, int h, std::string t);
+            ~Etikett();
+            void handleCollision(){}
+            bool isPlayer(){return false;}
+            void draw();
+        private:
+            std::string text;
+            SDL_Texture* textTurre;
+
+    };
+}
+#endif // ETIKETT_H

@@ -1,0 +1,33 @@
+#ifndef SKOGSHUGGARE_H
+#define SKOGSHUGGARE_H
+#include <SDL.h>
+#include "Sprite.h"
+#include "System.h"
+
+namespace spel {
+    class Skogshuggare : public Sprite
+    {
+        public:
+            void draw();
+            void mouseDown(const SDL_Event&);
+            void mouseUp(const SDL_Event&);
+            void mouseMotion(const SDL_Event&);
+            void handleCollision();
+            static Skogshuggare* getInstance(Fonster* fo, int x, int y, int w, int h);
+            ~Skogshuggare();
+            bool intersects();
+            bool isPlayer(){return true;}
+            Mix_Music* music = NULL;
+            void cleanMusic();
+
+        protected:
+            Skogshuggare(Fonster* fo, int x, int y, int w, int h);
+        private:
+            SDL_Surface* skogsSurf;
+            SDL_Texture* skogsTurre;
+            bool moving = false;
+            int collisionCount = 0;
+    };
+}
+
+#endif // SKOGSHUGGARE_H

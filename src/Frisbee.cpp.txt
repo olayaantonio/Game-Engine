@@ -1,0 +1,41 @@
+#include "Sprite.h"
+#include "Frisbee.h"
+#include "Fonster.h"
+#include <SDL.h>
+#include <SDL_image.h>
+#include <iostream>
+
+using namespace std;
+
+namespace spel {
+    Frisbee* Frisbee::getInstance(Fonster* fo, int x, int y, int w, int h) {
+        return new Frisbee(fo, x, y, w, h);
+    }
+
+    Frisbee::Frisbee(Fonster* fo, int x, int y, int w, int h) : Sprite(fo, x, y, w, h, true)
+    {
+        frisbeeSurf = SDL_LoadBMP("c:/images/frisbee.bmp");
+        Uint32 white = SDL_MapRGB(frisbeeSurf->format, 255, 255, 255);
+        SDL_SetColorKey(frisbeeSurf, SDL_RLEACCEL, white);
+        frisbeeTurre = SDL_CreateTextureFromSurface(win->getRen(), frisbeeSurf);
+        SDL_FreeSurface(frisbeeSurf);
+    }
+
+    //800 och 600 är fönstrets bredd och höjd.
+    void Frisbee::draw() {
+        SDL_RenderCopy(win->getRen(), frisbeeTurre, NULL, &rect);
+        if (rect.x < 0 || rect.x >= 800 - rect.w)
+            dx = -dx;
+        rect.x += dx;
+
+        if (rect.y < 0 || rect.y >= 600 - rect.h)
+            dy = -dy;
+        rect.y += dy;
+    }
+
+
+    Frisbee::~Frisbee()
+    {
+        SDL_DestroyTexture(frisbeeTurre);
+    }
+}

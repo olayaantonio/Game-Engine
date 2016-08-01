@@ -1,0 +1,22 @@
+#ifndef SYSTEM_H
+#define SYSTEM_H
+
+#include <SDL_ttf.h>
+#include <SDL_mixer.h>
+
+namespace spel
+{
+    class System
+    {
+    public:
+        System();
+        ~System();
+        TTF_Font* font; //Global pekare för font
+    };
+
+    extern System sys; //Nånstans kommer det finnas ett objekt av klassen System
+}
+
+
+
+#endif
